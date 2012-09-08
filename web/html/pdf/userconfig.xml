@@ -1,0 +1,150 @@
+<!--
+    Document   : userconfig.xml
+    Created on : March 23, 2009, 2:55 PM
+    Author     : subodh
+    Description:
+        Purpose of the document follows.
+-->
+
+<!--<!DOCTYPE configuration SYSTEM "config.dtd">-->
+<!-- 
+     this file contains templates which allow an user easy 
+     configuration of Fop. Actually normally you don't need this configuration 
+     file, but if you need to change configuration, you should
+     always use this file and *not* config.xml. 
+     Usage: java org.apache.fop.apps.Fop -c userconfig.xml -fo fo-file -pdf pdf-file
+-->
+
+
+
+
+<!--  NOT IMPLEMENTED
+basedir: normally the base directory is the directory where the fo file is 
+         located. if you want to specify your own, uncomment this entry
+-->
+<!-- 
+  <entry>
+    <key>baseDir</key>
+    <value></value>
+  </entry>
+-->
+
+<!--
+************************************************************************
+                        HYPHENATION 
+************************************************************************
+-->
+  
+<!--
+   hyphenation directory 
+   if you want to specify your own directory with hyphenation pattern
+   then uncomment the next entry and add the directory name
+-->
+
+<!--
+  <entry>
+    <key>hyphenation-dir</key>
+    <value>/java/xml-fop/hyph</value>
+  </entry>
+-->
+
+<!--
+************************************************************************
+  Add fonts here
+************************************************************************
+-->
+ <!-- example -->
+<!-- 
+ <font metrics-file="arial.xml" kerning="yes" embed-file="arial.ttf">
+    <font-triplet name="Arial" style="normal" weight="normal"/>
+    <font-triplet name="ArialMT" style="normal" weight="normal"/>
+ </font>
+ <font metrics-file="arialb.xml" kerning="yes" embed-file="arialb.ttf">
+    <font-triplet name="Arial" style="normal" weight="bold"/>
+    <font-triplet name="ArialMT" style="normal" weight="bold"/>
+ </font>
+ <font metrics-file="ariali.xml" kerning="yes" embed-file="ariali.ttf">
+    <font-triplet name="Arial" style="italic" weight="normal"/>
+    <font-triplet name="ArialMT" style="italic" weight="normal"/>
+ </font>
+ <font metrics-file="arialbi.xml" kerning="yes" embed-file="arialbi.ttf">
+    <font-triplet name="Arial" style="italic" weight="bold"/>
+    <font-triplet name="ArialMT" style="italic" weight="bold"/>
+ </font>
+ -->
+<configuration>
+<fonts>
+ <font metrics-file="file:///E:/anuj/fonts/arial.xml" kerning="yes" embed-file="file:///C:/WINDOWS/Fonts/arial.ttf">
+    <font-triplet name="Arial" style="normal" weight="normal"/>
+    <font-triplet name="ArialMT" style="normal" weight="normal"/>
+ </font>
+ <font metrics-file="file:///E:/anuj/fonts/arialb.xml" kerning="yes" embed-file="file:///C:/WINDOWS/Fonts/arialb.ttf">
+    <font-triplet name="Arial" style="normal" weight="bold"/>
+    <font-triplet name="ArialMT" style="normal" weight="bold"/>
+ </font>
+ <font metrics-file="file:///E:/anuj/fonts/ariali.xml" kerning="yes" embed-file="file:///C:/WINDOWS/Fonts/ariali.ttf">
+    <font-triplet name="Arial" style="italic" weight="normal"/>
+    <font-triplet name="ArialMT" style="italic" weight="normal"/>
+ </font>
+ <font metrics-file="file:///E:/anuj/fonts/arialbi.xml" kerning="yes" embed-file="file:///C:/WINDOWS/Fonts/arialbi.ttf">
+    <font-triplet name="Arial" style="italic" weight="bold"/>
+    <font-triplet name="ArialMT" style="italic" weight="bold"/>
+ </font>
+	<!--<font metrics-file="/tomcat/bin/verdana.xml" kerning="yes" embed-file="/tomcat/bin/verdana.ttf">
+	    <font-triplet name="Verdana" style="normal" weight="normal"/>
+	    <font-triplet name="VerdanaMT" style="normal" weight="normal"/>
+	 </font> 
+	<font metrics-file="/tomcat/bin/VERDANAB.xml" kerning="yes" embed-file="/tomcat/bin/VERDANAB.TTF">
+	    <font-triplet name="Verdana" style="normal" weight="bold"/>
+	    <font-triplet name="VerdanaMT" style="normal" weight="bold"/>
+	 </font>
+	<font metrics-file="/tomcat/bin/VERDANAI.xml" kerning="yes" embed-file="/tomcat/bin/VERDANAI.TTF">
+	    <font-triplet name="Verdana" style="italic" weight="normal"/>
+	    <font-triplet name="VerdanaMT" style="italic" weight="normal"/>
+	 </font>
+	<font metrics-file="/tomcat/bin/VERDANAZ.xml" kerning="yes" embed-file="/tomcat/bin/VERDANAZ.TTF">
+	    <font-triplet name="Verdana" style="italic" weight="bold"/>
+	    <font-triplet name="VerdanaMT" style="italic" weight="bold"/>
+	 </font>
+
+ 
+	<font metrics-file="/tomcat/bin/arial.xml" kerning="yes" embed-file="/tomcat/bin/arial.ttf">
+	    <font-triplet name="Arial" style="normal" weight="normal"/>
+	    <font-triplet name="ArialMT" style="normal" weight="normal"/>
+	 </font>
+	 <font metrics-file="/tomcat/bin/ARIALBD.xml" kerning="yes" embed-file="/tomcat/bin/ARIALBD.TTF">
+	    <font-triplet name="Arial" style="normal" weight="bold"/>
+	    <font-triplet name="ArialMT" style="normal" weight="bold"/>
+	 </font>
+	<font metrics-file="/tomcat/bin/ARIALI.xml" kerning="yes" embed-file="/tomcat/bin/ARIALI.TTF">
+	    <font-triplet name="Arial" style="italic" weight="normal"/>
+	    <font-triplet name="ArialMT" style="italic" weight="normal"/>
+	 </font>
+	<font metrics-file="/tomcat/bin/ARIALBI.xml" kerning="yes" embed-file="/tomcat/bin/ARIALBI.TTF">
+	    <font-triplet name="Arial" style="italic" weight="bold"/>
+	    <font-triplet name="ArialMT" style="italic" weight="bold"/>
+	 </font>
+          
+	 <font metrics-file="/tomcat/bin/times.xml" kerning="yes" embed-file="/tomcat/bin/times.ttf">
+	    <font-triplet name="Times" style="normal" weight="normal"/>
+	    <font-triplet name="TimesMT" style="normal" weight="normal"/>
+	 </font>
+	 
+	 <font metrics-file="/tomcat/bin/impact.xml" kerning="yes" embed-file="/tomcat/bin/impact.ttf">
+	    <font-triplet name="Impact" style="normal" weight="normal"/>
+	    <font-triplet name="ImpactMT" style="normal" weight="normal"/>
+	 </font>
+	 
+	 <font metrics-file="/tomcat/bin/CounselorScript.xml" kerning="yes" embed-file="/tomcat/bin/CounselorScript.ttf">
+	    <font-triplet name="CounselorScript" style="normal" weight="normal"/>
+	    <font-triplet name="CounselorScriptMT" style="normal" weight="normal"/>
+	 </font>
+	 
+	 <font metrics-file="/tomcat/bin/IDAutomationSMICR.xml" kerning="yes" embed-file="/tomcat/bin/IDAutomationSMICR.ttf">
+	    <font-triplet name="IDAutomationSMICR" style="normal" weight="normal"/>
+	    <font-triplet name="IDAutomationSMICRMT" style="normal" weight="normal"/>
+	 </font>-->
+ </fonts>
+</configuration>
+
+
