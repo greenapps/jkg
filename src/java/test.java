@@ -21,6 +21,9 @@ public class test extends JPanel {
         g.drawString("Serif - PLAIN - 12", 10, 30);
 
         f = new Font("Sanserif", Font.ITALIC, 10);
+        
+        
+        
         g.setFont(f);
         g.drawString("Sanserif - ITALIC - 10", 10, 60);
 
