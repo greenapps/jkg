@@ -20,137 +20,136 @@
 
 <%
     String amt = "";
-    String invoice_ID="";
-   boolean taxFlag=true;
-   String countryName;
-   String fob="";
-   String totAmt = request.getParameter("grandTotal");
-   String articles = (String)session.getAttribute("Articles");
-   String currency = (String)session.getAttribute("ArticleCurrency");
-   String quot_id = (String)session.getAttribute("ID");
-   System.out.println("TESTING IN 222"+currency);
-   Hashtable hashArticleDetails = new Hashtable();
-     Vector hashArticleDesc = new Vector();
-     Vector hashArticleSpec = new Vector();
-     Vector otherDetails = new Vector();
-     Vector contactDetails = new Vector();
-     Hashtable optionDetail = new Hashtable();
+    String invoice_ID = "";
+    boolean taxFlag = true;
+    String countryName;
+    String fob = "";
+    String totAmt = request.getParameter("grandTotal");
+    String articles = (String) session.getAttribute("Articles");
+    String currency = (String) session.getAttribute("ArticleCurrency");
+    String quot_id = (String) session.getAttribute("ID");
+    System.out.println("TESTING IN 222" + currency);
+    Hashtable hashArticleDetails = new Hashtable();
+    Vector hashArticleDesc = new Vector();
+    Vector hashArticleSpec = new Vector();
+    Vector otherDetails = new Vector();
+    Vector contactDetails = new Vector();
+    Hashtable optionDetail = new Hashtable();
     extendedDao extDao = new extendedDao();
-    Textile textile= new Textile();
-   hashArticleDetails = (Hashtable) session.getAttribute("hashInvoiceDetails");
-   contactDetails = (Vector) session.getAttribute("contactDetails");
-   otherDetails = (Vector)session.getAttribute("otherDetails");
-   hashArticleDesc = (Vector)session.getAttribute("hashArticleDesc");
-   hashArticleSpec = (Vector)session.getAttribute("hashArticleSpec");
-   generalBean gbean = new generalBean();
-   gbean = (generalBean) otherDetails.get(0);
-   if (request.getParameter("saveQuot") != null && request.getParameter("saveQuot").equals("true")) {
-       System.out.println("INSIDE QUOT2 SAVE");
-       Vector countryDetails = new Vector();
-       Vector amtDetails = new Vector();
+    Textile textile = new Textile();
+    hashArticleDetails = (Hashtable) session.getAttribute("hashInvoiceDetails");
+    contactDetails = (Vector) session.getAttribute("contactDetails");
+    otherDetails = (Vector) session.getAttribute("otherDetails");
+    hashArticleDesc = (Vector) session.getAttribute("hashArticleDesc");
+    hashArticleSpec = (Vector) session.getAttribute("hashArticleSpec");
+    generalBean gbean = new generalBean();
+    gbean = (generalBean) otherDetails.get(0);
+    if (request.getParameter("saveQuot") != null && request.getParameter("saveQuot").equals("true")) {
+        System.out.println("INSIDE QUOT2 SAVE");
+        Vector countryDetails = new Vector();
+        Vector amtDetails = new Vector();
 
-       for (int i = 0; i <= Integer.parseInt(request.getParameter("records")); i++) {
+        for (int i = 0; i <= Integer.parseInt(request.getParameter("records")); i++) {
 
-        if (request.getParameter("countryName") != null && !request.getParameter("countryName").equals("") && !request.getParameter("countryName").trim().equals("")) {
+            if (request.getParameter("countryName") != null && !request.getParameter("countryName").equals("") && !request.getParameter("countryName").trim().equals("")) {
 
-            if (request.getParameter("companyAddress") != null && !request.getParameter("companyAddress").equals("")) {
-                generalBean gbNew = new generalBean();
-                System.out.println(request.getParameter("companyAddress"));
-                countryName = request.getParameter("countryName").trim();
-                gbNew.setCountryName("" + countryName);
-                String companyDetails = request.getParameter("companyAddress");
+                if (request.getParameter("companyAddress") != null && !request.getParameter("companyAddress").equals("")) {
+                    generalBean gbNew = new generalBean();
+                    System.out.println(request.getParameter("companyAddress"));
+                    countryName = request.getParameter("countryName").trim();
+                    gbNew.setCountryName("" + countryName);
+                    String companyDetails = request.getParameter("companyAddress");
 //                String[] lines = companyDetails.split("/\r|\r\n|\n/");
 //                System.out.println("TESTING AFTER SPLITTING"+lines.length);
-                String termsCondition=textile.process(companyDetails);
-                gbNew.setCountryAdd(termsCondition.replaceAll(" ", "&nbsp;"));
-                System.out.println (termsCondition);     
-                countryDetails.add(gbNew);
+                    gbNew.setCountryAdd(companyDetails);
+                    System.out.println(companyDetails);
+                    countryDetails.add(gbNew);
+                }
+
+
+                System.out.println("added into countryDetails " + countryDetails.size());
             }
-
-
-            System.out.println("added into countryDetails " + countryDetails.size());
         }
-    }
-       String[] articleIds = articles.split(",");
-       for(int y=0;y<articleIds.length;y++){
+        String[] articleIds = articles.split(",");
+        for (int y = 0; y < articleIds.length; y++) {
 
-            if (request.getParameter("ArticleCode"+y) != null && !request.getParameter("ArticleCode"+y).equals("") && !request.getParameter("ArticleCode"+y).trim().equals("")) {
+            if (request.getParameter("ArticleCode" + y) != null && !request.getParameter("ArticleCode" + y).equals("") && !request.getParameter("ArticleCode" + y).trim().equals("")) {
                 Vector optionsVal = new Vector();
                 for (int i = 0; i <= Integer.parseInt(request.getParameter("itemrecords")); i++) {
 
 
 
-            if (request.getParameter("optionItem"+y+"Code" + i) != null && !request.getParameter("optionItem"+y+"Code" + i).equals("") && !request.getParameter("optionItem"+y+"Code" + i).equals("-")) {
-                ArticleInBean options = new ArticleInBean();
-                System.out.println(request.getParameter("optionItem"+y+"Code" + i));
-                //countryName = request.getParameter("countryName").trim();
-                options.setArticleOptionItem(request.getParameter("optionItem"+y+"Code" + i).trim());
-                //options.setCountryAdd(request.getParameter("countryDetails" + i).trim());
-                if (request.getParameter("optionItem"+y+"Desc" + i) != null && !request.getParameter("optionItem"+y+"Desc" + i).equals("") && !request.getParameter("optionItem"+y+"Desc" + i).equals("-")) {
-                    options.setArticleOptionDesc(request.getParameter("optionItem"+y+"Desc" + i).trim());
+                    if (request.getParameter("optionItem" + y + "Code" + i) != null && !request.getParameter("optionItem" + y + "Code" + i).equals("") && !request.getParameter("optionItem" + y + "Code" + i).equals("-")) {
+                        ArticleInBean options = new ArticleInBean();
+                        System.out.println(request.getParameter("optionItem" + y + "Code" + i));
+                        //countryName = request.getParameter("countryName").trim();
+                        options.setArticleOptionItem(request.getParameter("optionItem" + y + "Code" + i).trim());
+                        //options.setCountryAdd(request.getParameter("countryDetails" + i).trim());
+                        if (request.getParameter("optionItem" + y + "Desc" + i) != null && !request.getParameter("optionItem" + y + "Desc" + i).equals("") && !request.getParameter("optionItem" + y + "Desc" + i).equals("-")) {
+                            options.setArticleOptionDesc(request.getParameter("optionItem" + y + "Desc" + i).trim());
+                        }
+                        if (request.getParameter("optionItem" + y + "Price" + i) != null && !request.getParameter("optionItem" + y + "Price" + i).equals("") && !request.getParameter("optionItem" + y + "Price" + i).equals("-")) {
+                            options.setArticleOptionPrice(request.getParameter("optionItem" + y + "Price" + i).trim());
+                        }
+                        optionsVal.add(options);
+                    }
+
+
+                    System.out.println("added into countryDetails " + countryDetails.size());
                 }
-                if (request.getParameter("optionItem"+y+"Price" + i) != null && !request.getParameter("optionItem"+y+"Price" + i).equals("") && !request.getParameter("optionItem"+y+"Price" + i).equals("-")) {
-                    options.setArticleOptionPrice(request.getParameter("optionItem"+y+"Price" + i).trim());
-                }
-                optionsVal.add(options);
+                optionDetail.put(articleIds[y], optionsVal);
             }
 
-
-            System.out.println("added into countryDetails " + countryDetails.size());
         }
-        optionDetail.put(articleIds[y],optionsVal);
-    }
-
-             }
-    String CountryName = request.getParameter("countryName");
-    generalBean gBeanCN = (generalBean) contactDetails.get(0);
-    generalBean general = (generalBean) otherDetails.get(0);
-    String[] QuotationInfo = new String[10]; //THIS ARRAY CONTAINS ALL THE INVOICE RELATED DETAILS e.g. clienteDetails,paymentDetails,chequeDetails etc.
-            System.out.println("\n..................................................PAYMENT\n");
-            QuotationInfo[0] = "";//invoiceId
-            QuotationInfo[1] = gBeanCN.getContactName();
-            QuotationInfo[2] = general.getDate();
-            QuotationInfo[3] = request.getParameter("Total");
-            QuotationInfo[4] = general.getSub();
-            QuotationInfo[5] = "JKG/11-12/";
-            QuotationInfo[6] = (String) session.getAttribute("Usern");
-            QuotationInfo[7] = CountryName;
+        String CountryName = request.getParameter("countryName");
+        generalBean gBeanCN = (generalBean) contactDetails.get(0);
+        generalBean general = (generalBean) otherDetails.get(0);
+        String[] QuotationInfo = new String[10]; //THIS ARRAY CONTAINS ALL THE INVOICE RELATED DETAILS e.g. clienteDetails,paymentDetails,chequeDetails etc.
+        System.out.println("\n..................................................PAYMENT\n");
+        QuotationInfo[0] = "";//invoiceId
+        QuotationInfo[1] = gBeanCN.getContactName();
+        QuotationInfo[2] = general.getDate();
+        QuotationInfo[3] = request.getParameter("Total");
+        QuotationInfo[4] = general.getSub();
+        QuotationInfo[5] = "JKG/11-12/";
+        QuotationInfo[6] = (String) session.getAttribute("Usern");
+        QuotationInfo[7] = CountryName;
 
 
-    String totalAMt = request.getParameter("Total");
-    generalBean gen = new generalBean();
-    if (request.getParameter("hiddenamt") != null && !request.getParameter("hiddenamt").equals("")) {
-        gen.setTotPrice(request.getParameter("hiddenamt"));
+        String totalAMt = request.getParameter("Total");
+        generalBean gen = new generalBean();
+        if (request.getParameter("hiddenamt") != null && !request.getParameter("hiddenamt").equals("")) {
+            gen.setTotPrice(request.getParameter("hiddenamt"));
         }
-    if (request.getParameter("discount") != null && !request.getParameter("discount").equals("")) {
-        gen.setDiscount(request.getParameter("discount"));
+        if (request.getParameter("discount") != null && !request.getParameter("discount").equals("")) {
+            gen.setDiscount(request.getParameter("discount"));
         }
-    if (request.getParameter("specialdiscount") != null && !request.getParameter("specialdiscount").equals("")) {
-        gen.setSpecialDisc(request.getParameter("specialdiscount"));
+        if (request.getParameter("specialdiscount") != null && !request.getParameter("specialdiscount").equals("")) {
+            gen.setSpecialDisc(request.getParameter("specialdiscount"));
         }
-    if (request.getParameter("portcharges") != null && !request.getParameter("portcharges").equals("")) {
-        gen.setPortCharges(request.getParameter("portcharges"));
+        if (request.getParameter("portcharges") != null && !request.getParameter("portcharges").equals("")) {
+            gen.setPortCharges(request.getParameter("portcharges"));
         }
-    if (request.getParameter("fob") != null && !request.getParameter("fob").equals("")) {
-        gen.setTotFOB(request.getParameter("fob"));
+        if (request.getParameter("fob") != null && !request.getParameter("fob").equals("")) {
+            gen.setTotFOB(request.getParameter("fob"));
         }
-    if (request.getParameter("fpexsea") != null && !request.getParameter("fpexsea").equals("")) {
-        gen.setShipCharges(request.getParameter("fpexsea"));
+        if (request.getParameter("fpexsea") != null && !request.getParameter("fpexsea").equals("")) {
+            gen.setShipCharges(request.getParameter("fpexsea"));
         }
-    if (request.getParameter("fpexair") != null && !request.getParameter("fpexair").equals("")) {
-        gen.setAirCharges(request.getParameter("fpexair"));
+        if (request.getParameter("fpexair") != null && !request.getParameter("fpexair").equals("")) {
+            gen.setAirCharges(request.getParameter("fpexair"));
         }
-    if (request.getParameter("Total") != null && !request.getParameter("Total").equals("")) {
-        gen.setTotNetAmt(request.getParameter("Total"));
+        if (request.getParameter("Total") != null && !request.getParameter("Total").equals("")) {
+            gen.setTotNetAmt(request.getParameter("Total"));
         }
-    amtDetails.add(gen);
-       invoice_ID = extDao.saveQuotation(QuotationInfo,hashArticleDetails,hashArticleDesc,hashArticleSpec,contactDetails,otherDetails,countryDetails,CountryName,totalAMt,optionDetail);
-   session.setAttribute("optionDetails", optionDetail);
-   session.setAttribute("companyDetails", countryDetails);
-   session.setAttribute("amtDetails", amtDetails);
-   System.out.println("INSAVE"+invoice_ID);
+        amtDetails.add(gen);
+        invoice_ID = extDao.saveQuotation(QuotationInfo, hashArticleDetails, hashArticleDesc, hashArticleSpec, contactDetails, otherDetails, countryDetails, CountryName, totalAMt, optionDetail);
+        session.setAttribute("optionDetails", optionDetail);
+        session.setAttribute("companyDetails", countryDetails);
+        session.setAttribute("amtDetails", amtDetails);
+        System.out.println("INSAVE" + invoice_ID);
 
-    if (!invoice_ID.equals("false")) {
+        if (!invoice_ID.equals("false")) {
 
 %>
 <jsp:forward page="MsgPage.jsp">
@@ -158,83 +157,75 @@
     <jsp:param name="link" value="quotation.jsp"/>
 </jsp:forward>
 <%}
-        }//END OF SAVE MODE
+    }//END OF SAVE MODE
 %>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <jsp:include page="include.jsp"></jsp:include>
         <title>Create Quotation</title>
-        <link rel="stylesheet" type="text/css" href="./css/effects.css">
-        <jsp:include page="home.jsp"></jsp:include>
-        </head>
-        <body>
-            <SCRIPT>
-                function getCountryDetails(url)
-                {
-                    //alert(url+eval("document.master.name"+rownum));
-                    if((url.length != 0 && eval("document.master.countryName")!=null)){
-                        //alert(' test here ');
-                        var url='getData.jsp?countryName='+replaceSplChar(url);
-                        reqInit=2;
-                        getData(url,setCountryDetails);
-                    }
-                }
-                function setCountryDetails(output){
-                    //alert ('setContactValues called')
-                    //reqInit=0;
-                    //document.getElementById("notificationFrame").style.visibility="hidden";
-                    var parent = output.getElementsByTagName("parent")[0];
-                    //alert('parent '+parent)
-                    if(parent==null || parent==undefined || parent.getElementsByTagName("child")==undefined || parent.getElementsByTagName("child")==null){//|| parent.getElementsByTagName("child").length <3
-                        //alert("in null");
-                    }
-                    else if(parent != null && parent != undefined && parent.getElementsByTagName("child")!=undefined ){ //&& parent.getElementsByTagName("child").length != 3
-                        var child = parent.getElementsByTagName("child");
-                        var companyAdd = child[0].getElementsByTagName('countryDetail')[0].firstChild.nodeValue;
-                        var company_Add = replaceSplCharBack(companyAdd);
-
-                        eval("document.master.companyAddress").value=company_Add;
-
-
-
-                    }
-                }
-                function addCountryDet(max){
-                    //alert('HAAN in addDesc'+max);
-                    for(u=0; u< max;u++){
-                        tableid=document.getElementById("termCondTable");
-                        rows=tableid.getElementsByTagName("tr").length;
-                        //alert('hi'+rows+"articleTechDesc.length "+max);
-                        if(navigator.appName!='Microsoft Internet Explorer')
-                        {
-                            var no=parseInt(rows)+parseInt(u);
-                            trid=tableid.insertRow(rows-1);
-                            trid.id="rowID"+(rows+u);
-                            // alert("hi");
-                            trid.innerHTML="<td><input type='text' name='countryDetails"+(rows+u)+"' id='countryDetails"+(rows+u)+"' size='10' value='' autocomplete='on' maxlength='50'> <input type='hidden' name='cuontryAddNewHidden"+(rows+u)+"' value=''></td>"+
-                                "<td><input type='text' name='countryAddress"+(rows+u)+"' id='countryAddress"+(rows+u)+"' size='10' value='' autocomplete='on' maxlength='50'> <input type='hidden' name='cuontryAddressNewHidden"+(rows+u)+"' value=''></td>";
-
+    </head>
+    <body>
+        <SCRIPT>
+            function getCountryDetails(url)
+            {
+                if((url.length != 0 && eval("document.master.countryName")!=null)){
+                    var url='getData.jsp?countryName='+replaceSplChar(url);
+                    reqInit=2;
+                    console.log(url);
+                    $.ajax({
+                        url: url,
+                        dataType: "xml",
+                        success: function(data) {
+                            setCountryDetails(data);
                         }
-                        else
-                        {
+                    });
+                    
+                }
+            }
+            
+            function setCountryDetails(data){
+                var countryDetail = $(data).find("countryDetail").text();
+                removeTinyMCE();
+                $('#companyAddress').val(''+countryDetail+'');
+                initiateTinyMCE();
+            }
+                
+            function addCountryDet(max){
+                //alert('HAAN in addDesc'+max);
+                for(u=0; u< max;u++){
+                    tableid=document.getElementById("termCondTable");
+                    rows=tableid.getElementsByTagName("tr").length;
+                    //alert('hi'+rows+"articleTechDesc.length "+max);
+                    if(navigator.appName!='Microsoft Internet Explorer')
+                    {
+                        var no=parseInt(rows)+parseInt(u);
+                        trid=tableid.insertRow(rows-1);
+                        trid.id="rowID"+(rows+u);
+                        // alert("hi");
+                        trid.innerHTML="<td><input type='text' name='countryDetails"+(rows+u)+"' id='countryDetails"+(rows+u)+"' size='10' value='' autocomplete='on' maxlength='50'> <input type='hidden' name='cuontryAddNewHidden"+(rows+u)+"' value=''></td>"+
+                            "<td><input type='text' name='countryAddress"+(rows+u)+"' id='countryAddress"+(rows+u)+"' size='10' value='' autocomplete='on' maxlength='50'> <input type='hidden' name='cuontryAddressNewHidden"+(rows+u)+"' value=''></td>";
 
-                            trid=document.getElementById("termCondTable").insertRow(rows+u);
-                            trid.id="rowID"+(rows+u);
-                            var no=parseInt(rows)+parseInt(u);
+                    }
+                    else
+                    {
 
-                            tcell=trid.insertCell();
-                            tcell.innerHTML="<input type='text' name='countryDetails"+no+"' id='countryDetails"+no+"' size='10' value='' autocomplete='on' maxlength='50'> <input type='hidden' name='countryAddressHidden"+no+"' value=''></td>";
+                        trid=document.getElementById("termCondTable").insertRow(rows+u);
+                        trid.id="rowID"+(rows+u);
+                        var no=parseInt(rows)+parseInt(u);
 
-                        }
+                        tcell=trid.insertCell();
+                        tcell.innerHTML="<input type='text' name='countryDetails"+no+"' id='countryDetails"+no+"' size='10' value='' autocomplete='on' maxlength='50'> <input type='hidden' name='countryAddressHidden"+no+"' value=''></td>";
+
                     }
                 }
+            }
 
-                function replaceSplChar(str)
-                {
-                    if(str!='') {
-                        strToReplace=str.toString();
-                        finalstrToReplace='';
-                        for(var i=0;i<strToReplace.length;i++){
+            function replaceSplChar(str)
+            {
+                if(str!='') {
+                    strToReplace=str.toString();
+                    finalstrToReplace='';
+                    for(var i=0;i<strToReplace.length;i++){
             <%--if(strToReplace.charAt(i)=='&'){
                 //strToReplace=strToReplace.replace('&', '%26');
                 finalstrToReplace=finalstrToReplace+'%26';
@@ -748,6 +739,7 @@
                 else{
                 }
             }
+            
             function save() {
                 document.master.records.value=document.getElementById('termCondTable').rows.length-1;
                 document.master.itemrecords.value=document.getElementById('optionsDetails').rows.length-1;
@@ -768,6 +760,25 @@
                     document.master.submit();
                 }
             }
+            
+            function initiateTinyMCE(){
+                tinyMCE.init({
+                    mode : "textareas",
+                    elements : 'companyAddress',
+                    theme : "advanced"
+                }); 
+            }
+            
+            function removeTinyMCE(){
+                tinymce.execCommand('mceRemoveControl',true,'companyAddress');
+            }
+            
+            
+            $(function(){
+                initiateTinyMCE(); 
+            });
+            
+            
         </SCRIPT>
 
 
