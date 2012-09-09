@@ -746,12 +746,6 @@
                 //alert("before action"+document.master.itemrecords.value);
 
                 if(document.getElementById("companyAddress") != null){
-                    var companyAddress = document.getElementById("companyAddress").value;
-
-                    //               document.getElementById("companyAddress").value = replaceSplChar(companyAddress);
-                    //for(j=0;j<articleTechDesc.length;j++){
-                    //  alert(articleTechDesc[j]);
-                    //}
                     document.master.action="quotation2.jsp?saveQuot=true";
                     document.master.submit();
                 }

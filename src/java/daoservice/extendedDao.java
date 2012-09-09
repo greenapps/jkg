@@ -691,17 +691,20 @@ public class extendedDao {
                     }
                 }
                 for (int d = 0; d < countryDetails.size(); d++) {
-                    //System.out.println(" block III in save ");
                     generalBean gBean = (generalBean) countryDetails.get(d);
-                    //     System.out.println(" block 3 in save ");
-                    //vecArticleList.add(keyName);
                     if (gBean.getCountryAdd() != null && !gBean.getCountryAdd().equals("")) {
-                        query = "insert into sal_countrydetails_t(CompanyName,CountryAddress,CountryAddressValue) values('" + gBean.getCountryName() + "', '" + gBean.getCountryAdd() + "',' ')";
-                        //System.out.println("In SAVE QUERY FOR CONTACT DETAILS IS"+query);
-                        count = stmt.executeUpdate(query);
-
-                        System.out.println("COUNT VALUE" + count);
-                        //////arvind 6-10-5
+                        String checkQuery = "select count(*)  from sal_countrydetails_t where CompanyName='" + gBean.getCountryName() + "'";
+                        query = "insert into sal_countrydetails_t(CompanyName,CountryAddress,CountryAddressValue) values('" + gBean.getCountryName() + "', '" + gBean.getCountryAdd() + "','"+ gBean.getCountryAddVal()+" ')";
+                        String updateQuery = "update sal_countrydetails_t set CountryAddressValue='" + gBean.getCountryAddVal() + "' where CompanyName='" + gBean.getCountryName() + "'";
+                        ResultSet rs1 = stmt.executeQuery(checkQuery);
+                        if (rs1.next()) {
+                            int numberOfRows = rs1.getInt(1);
+                            if (numberOfRows == 0) {
+                                count = stmt.executeUpdate(query);
+                            } else {
+                                count = stmt.executeUpdate(updateQuery);
+                            }
+                        }
                     }
                     if (count == 0) {
                         System.out.println("***** Exception while inserting data sal_invoicequotation_t *****");
