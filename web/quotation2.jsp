@@ -819,7 +819,7 @@
                 </tr>
                 <tr>
                     <th width="50%" align="left"><font size="1" face="verdana">Add Estimated Handling, local transportation, SEA/AIR Port charges</font></th>
-                    <th width="50%" align="left"><input type="text" name="portcharges" id="portcharges" onchange="getport(this.value);" size="20"></font></th>
+                    <th width="50%" align="left"><input type="text" name="portcharges" id="portcharges" onchange="getport(this.value);" size="20"></th>
                 </tr>
                 <tr>
                     <th width="50%" align="left"><font size="1" face="verdana">Total FOB</font></th>
@@ -839,7 +839,7 @@
                 </tr>
                 <tr id="searow1">
                     <th width="50%" align="left"><font size="1" face="verdana">Add Estimated Handling, local transportation, SEA Freight charges</font></th>
-                    <th width="50%" align="left"><input type="text" name="fpexsea" id="fpexsea" onchange="addsea(this.value);" size="20"></font></th>
+                    <th width="50%" align="left"><input type="text" name="fpexsea" id="fpexsea" onchange="addsea(this.value);" size="20"></th>
                 </tr>
                 <tr>
                     <td>
@@ -854,7 +854,7 @@
                 </tr>
                 <tr id="airrow1">
                     <th width="50%" align="left"><font size="1" face="verdana">Add Estimated Handling, local transportation, AIR Freight charges</font></th>
-                    <th width="50%" align="left"><input type="text" name="fpexair" id="fpexair" onchange="addair(this.value);" size="20"></font></th>
+                    <th width="50%" align="left"><input type="text" name="fpexair" id="fpexair" onchange="addair(this.value);" size="20"></th>
                 </tr>
 
             </table>
@@ -888,7 +888,7 @@
 
                 <tr>
                     <th width="50%" align="left"><font size="1" face="verdana">Company Name</font></th>
-                    <th width="50%" align="left"><input type="text" name="countryName" size="20" onchange="getCountryDetails(this.value);"></font></th>
+                    <th width="50%" align="left"><input type="text" name="countryName" size="20" onchange="getCountryDetails(this.value);"></th>
                 </tr>
                 <tr>
                     <td width="20%" ></td>

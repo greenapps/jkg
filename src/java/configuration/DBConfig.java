@@ -11,6 +11,6 @@ package configuration;
 public class DBConfig {
 
     public static final String dbUserName = "root";
-    public static final String dbPassword = "igdefault";
+    public static final String dbPassword = "";
     public static final String dbUrl = "jdbc:mysql://localhost:3306/jkg_db";
 }

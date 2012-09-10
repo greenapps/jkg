@@ -125,12 +125,13 @@
 
         }
         int commaLen = commaArticle.length() - 1;
+        if(commaLen > 0){
         commaArticle = commaArticle.substring(0, commaLen);
         session.setAttribute("Articles", commaArticle);
         int commaCurrLen = commaArticleCurr.length() - 1;
         commaArticleCurr = commaArticleCurr.substring(0, commaCurrLen);
         session.setAttribute("ArticleCurrency", commaArticleCurr);
-
+        }
         if (request.getParameter("name1") != null && !request.getParameter("name1").equals("") && !request.getParameter("name1").trim().equals("")) {
 
             if (request.getParameter("contactAddress") != null && !request.getParameter("contactAddress").equals("")) {
@@ -208,6 +209,20 @@
 %>
 <html>
     <head>
+         <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
+<style type="text/css">
+
+
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+
+</style>
+  <script>
+  $(document).ready(function(){
+    
+    $("#master").validate();
+  });
+  </script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create Quotation</title>
         <link rel="stylesheet" type="text/css" href="./css/effects.css">
@@ -543,11 +558,11 @@
                 }
                 function addArticle(max){
                     tableid=document.getElementById("article_table");
-                    alert('hii'+ idArray[0]+'SECOND=='+idArray[1]);
+                    //alert('hii'+ idArray[0]+'SECOND=='+idArray[1]);
                     rows=tableid.getElementsByTagName("tr").length;
                     var row= rows-1;
 
-                    alert('hi'+row+"articleTechDesc.length "+max);
+                    //alert('hi'+row+"articleTechDesc.length "+max);
                     if(navigator.appName!='Microsoft Internet Explorer')
                     {
                         //alert(document.getElementById('article_id'+max).value);
@@ -561,18 +576,18 @@
                 }
                 val=1;
             }--%>
-                        alert('VALUE of val'+val);
+                        //alert('VALUE of val'+val);
                         if(val==1){
                             for(j=0;j<max;j++){
                                 var no=parseInt(rows)+parseInt(j);
                                 trid=tableid.insertRow(rows+j);
                                 trid.id="rowID"+(rows+j);
 
-                                trid.innerHTML="<td><input type='text' id='article_id"+(rows+j)+"' name='article_id"+(rows+j)+"' size='10' maxlength='25' autocomplete='off' onkeyup='callAjax(event,"+(rows+j)+",this.value)'  onchange='getValues("+(rows+j)+",this.value);' ><br><div  name='suggestion' id='search_suggest"+(rows+j+2)+"' style='display:none;width:280px;'></div><input type='hidden' name='article_type"+(rows+j)+"' value=''></td><input type='hidden' name='blockedOutlet"+(rows+j)+"' value=''>"+
-                                    "<td align='center' ><input type='text' name='article_desc"+(rows+j)+"' size='100'  autocomplete='off'></td>"+
-                                    "<td align='center'><input type='text' name='quantity"+(rows+j)+"' readOnly  size='5' maxlength='10' onchange=calTotal(this.value,"+(rows+j)+")></td>"+
-                                    "<td align='center'><input type='text' name='article_curr"+(rows+j)+"' size='10'  autocomplete='off'></td>"+
-                                    "<td align='center'><input type='text' name='price"+(rows+j)+"' size='9'  maxlength='10' onchange=calTotal(this.value,"+(rows+j)+")></td>"+
+                                trid.innerHTML="<td><input class='required' type='text' id='article_id"+(rows+j)+"' name='article_id"+(rows+j)+"' size='10' maxlength='25' autocomplete='off' onkeyup='callAjax(event,"+(rows+j)+",this.value)'  onchange='getValues("+(rows+j)+",this.value);' ><br><div  name='suggestion' id='search_suggest"+(rows+j+2)+"' style='display:none;width:280px;'></div><input type='hidden' name='article_type"+(rows+j)+"' value=''></td><input type='hidden' name='blockedOutlet"+(rows+j)+"' value=''>"+
+                                    "<td align='center' ><input class='required' type='text' name='article_desc"+(rows+j)+"' size='100'  autocomplete='off'></td>"+
+                                    "<td align='center'><input class='required' type='text' name='quantity"+(rows+j)+"' readOnly  size='5' maxlength='10' onchange=calTotal(this.value,"+(rows+j)+")></td>"+
+                                    "<td align='center'><input class='required' type='text' name='article_curr"+(rows+j)+"' size='10'  autocomplete='off'></td>"+
+                                    "<td align='center'><input class='required' type='text' name='price"+(rows+j)+"' size='9'  maxlength='10' onchange=calTotal(this.value,"+(rows+j)+")></td>"+
                                     "<td align='center'><div id='total"+(rows+j)+"'>&nbsp;</div><input type='hidden' name='total"+(rows+j)+"' value=''></td>";
                                 trid=tableid.insertRow(rows+j+1);
                                 trid.id="rowID"+(rows+j+1);
@@ -1629,6 +1644,7 @@ function next() {
     document.master.records.value=document.getElementById('article_table').rows.length-1;
     document.master.contactrecords.value=document.getElementById('contactDetailsTable').rows.length-1;
     oArea = document.getElementById('contactAddress');
+    
     //alert(document.getElementById('contactAddress').rows);
     var aNewlines = oArea.value.split("\n");
     var lines = document.getElementById("contactAddress").value.split(/\r|\r\n|\n/);
@@ -1654,9 +1670,13 @@ function next() {
     //var iNewlineCount = aNewlines.length();
     //alert(lines.length);
     //alert("before action"+document.master.records.value+"VALUE OF CDET."+document.master.contactrecords.value);
+    $("#InsideContainer").validate();
+    if($("#InsideContainer").valid()){
+    
     document.master.action="FinalQuot.jsp?save=true";
+    
     document.master.submit();
-
+}
 }
 function grandTotal(){
     var grandTotal=0;
@@ -1708,7 +1728,7 @@ function formatText(el,tag){
 
         </SCRIPT>
 
-        <form id="InsideContainer" name="master" method="post">
+        <form id="InsideContainer" class="cmxform" name="master" method="post">
             <input type="hidden" name="records" value=""/>
             <input type="hidden" name="contactrecords" value=""/>
             <input type="hidden" name="cur" id="cur"/>
@@ -1736,7 +1756,7 @@ function formatText(el,tag){
                 <% for (int k = 1; k <= 1; k++) {%>
                 <tr id="rowID<%=k%>"><td></td></tr>
                 <tr>
-                    <td><input type="textbox" name="name<%= k%>" size="50" value="" onchange="getContactValues(<%= k%>,this.value);"/></td><br>
+                    <td><input class="required" type="textbox" name="name<%= k%>" size="50" value="" onchange="getContactValues(<%= k%>,this.value);"/></td>
                 </tr>
                 <%}%>
                 <tr>
@@ -1756,7 +1776,7 @@ function formatText(el,tag){
                         Subject:
                     </td>
                     <td>
-                        <input type="textbox" size="130" name="subject" value=""/>
+                        <input class="required" type="textbox" size="130" name="subject" value=""/>
                     </td>
                 </tr>
             </table>
@@ -1772,16 +1792,16 @@ function formatText(el,tag){
                 <% for (int i = 1; i <= 1; i++) {%>
                 <tr id="rowID<%=i%>">
                     <td>
-                        <input type="text" name="article_id<%= i%>" id="article_id<%= i%>" size="10" autocomplete="off" maxlength="25"  onchange="getValues(<%= i%>,this.value);"   onkeyup="KeyCheck(event,'article_id<%= i%>','','search_suggest<%=(i + 2)%>','getData.jsp?articleDescQty='+replaceSplChar(this.value));">
-                        <input type="hidden" name="article_type<%= i%>" value=""><br><div  name="suggestion" id="search_suggest<%= i + 2%>" style="display:none;width:280px;"></div>
+                        <input class="required" type="text" name="article_id<%= i%>" id="article_id<%= i%>" size="10" autocomplete="off" maxlength="25"  onchange="getValues(<%= i%>,this.value);"   onkeyup="KeyCheck(event,'article_id<%= i%>','','search_suggest<%=(i + 2)%>','getData.jsp?articleDescQty='+replaceSplChar(this.value));">
+                        <input class="required" type="hidden" name="article_type<%= i%>" value=""><br><div  name="suggestion" id="search_suggest<%= i + 2%>" style="display:none;width:280px;"></div>
                     </td>
                     <td align="center" >
-                        <input type="text"  name="article_desc<%= i%>" size="100"   autocomplete="off" >
+                        <input class="required" type="text"  name="article_desc<%= i%>" size="100"   autocomplete="off" >
 
                     </td>
-                    <td align="center"><input type="text" name="quantity<%= i%>" size="2" maxlength="10" autocomplete="off"  onkeypress="" onchange="calTotal(this.value,<%= i%>)"></td>
-                    <td align="center"><input type="text"  name="article_curr<%= i%>" size="2"   autocomplete="off"  ></td>
-                    <td align="center"><input type="text"  name="price<%= i%>" size="5"   autocomplete="off"  onchange="calTotal(this.value,<%= i%>)"  onblur='calTotal(this.value,<%= i%>)' ></td>
+                    <td align="center"><input class="required" type="text" name="quantity<%= i%>" size="2" maxlength="10" autocomplete="off"  onkeypress="" onchange="calTotal(this.value,<%= i%>)"></td>
+                    <td align="center"><input class="required" type="text"  name="article_curr<%= i%>" size="2"   autocomplete="off"  ></td>
+                    <td align="center"><input class="required" type="text"  name="price<%= i%>" size="5"   autocomplete="off"  onchange="calTotal(this.value,<%= i%>)"  onblur='calTotal(this.value,<%= i%>)' ></td>
                     <td align="center"><div id="total<%= i%>">&nbsp;</div>
                         <input type="hidden" name="total<%= i%>" value="" >
                     </td>
@@ -1875,7 +1895,7 @@ function formatText(el,tag){
                     <td align="center" colspan="3">
 
 
-                        <input type="button" class="button"  value="next" name="saveQuot" onclick="next();">
+                        <input type="submit" class="submit button"  value="next" name="saveQuot" onclick="next();">
 
                     </td>
                 </tr>

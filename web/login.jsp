@@ -4,6 +4,19 @@
 
 <html>
     <head>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
+<style type="text/css">
+
+
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+
+</style>
+  <script>
+  $(document).ready(function(){
+    $("#loginForm").validate();
+  });
+  </script>
         <title>Login</title>
         <link rel="stylesheet" type="text/css" href="./css/effects.css">
         <script type="text/javascript" src="<%=request.getContextPath()%>/js/Ajax.js"></script>
@@ -71,7 +84,7 @@
     </SCRIPT>
     <body onload="checkRoles();">
         <h1></h1>
-        <form id="MainContainer" autocomplete="off" name="master" method="post" action ="CheckLoginServlet">
+        <form class="cmxform" id="loginForm" autocomplete="off" name="master" method="post" action ="CheckLoginServlet">
 
             <table class="table" align="center">
                 <tr>
@@ -86,7 +99,7 @@
                         <label>UserName:</label> 
                     </td>
                     <td align="left">
-                        <input type="text" class="textBox" size="25" name="user" id="user" onchange="getRoles(this.value);"/>
+                        <input type="text" class="required textBox" size="25" name="user" id="user" onchange="getRoles(this.value);"/>
                     </td>
                 </tr>
                 <tr>
@@ -95,12 +108,12 @@
 
                     </td>
                     <td align="left">
-                        <input type="password" class="textBox" size="25" name="pass" id="pass" onchange="getRoles(this.value);"/>
+                        <input type="password" class="required textBox" size="25" name="pass" id="pass" onchange="getRoles(this.value);"/>
                     </td>
                 </tr>
                 <tr>
                     <td align="right" colspan="1"> <label>Roles:</label></td>
-                    <td align="left"><select class="selectBox" size="1" name="role" id="role">
+                    <td align="left"><select class="required selectBox" size="1" name="role" id="role">
                             <option value="">-----------------------</option>
                         </select></td>
                 </tr>
@@ -109,7 +122,7 @@
 
                     <td align="right" width="30%"><br><br></td>
                     <td align="left"><br>
-                        <input class="button" type="submit" name="login" id="login" value="login" />
+                        <input class="submit button" type="submit" name="login" id="login" value="login" />
 
                     </td>
                 </tr>
