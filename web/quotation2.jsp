@@ -162,6 +162,20 @@
 <html>
     <head>
         <jsp:include page="include.jsp"></jsp:include>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
+<style type="text/css">
+
+
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+
+</style>
+  <script>
+  $(document).ready(function(){
+
+    $("#master").validate();
+  });
+  </script>
         <title>Create Quotation</title>
     </head>
     <body>
@@ -744,14 +758,17 @@
                 document.master.records.value=document.getElementById('termCondTable').rows.length-1;
                 document.master.itemrecords.value=document.getElementById('optionsDetails').rows.length-1;
                 //alert("before action"+document.master.itemrecords.value);
-
+                $("#InsideContainer").validate();
+                if($("#InsideContainer").valid()){
                 if(document.getElementById("companyAddress") != null){
-                    document.master.action="quotation2.jsp?saveQuot=true";
-                    document.master.submit();
-                }
+                    
+                        document.master.action="quotation2.jsp?saveQuot=true";
+                        document.master.submit();
+                    }
                 else{
-                    document.master.action="quotation2.jsp?saveQuot=true";
-                    document.master.submit();
+                        document.master.action="quotation2.jsp?saveQuot=true";
+                        document.master.submit();
+                    }
                 }
             }
             
@@ -776,7 +793,7 @@
         </SCRIPT>
 
 
-        <form id="InsideContainer" name="master" method="post">
+        <form id="InsideContainer" class="cmxform" name="master" method="post">
             <input type="hidden" name="records" value=""/>
             <input type="hidden" name="itemrecords" value=""/>
             <input type="hidden" name="curr" id="curr" value="<%= currency%>"/>
@@ -807,23 +824,23 @@
                 </tr>
                 <tr>
                     <th width="50%" align="left"><font size="1" face="verdana">Total Price</font></th>
-                    <th width="50%" align="left"><font size="1" face="verdana"><input type="text" name="hiddenamt" id="hiddenamt" value="<%= totAmt%>"/></font></th>
+                    <th width="50%" align="left"><font size="1" face="verdana"><input type="text" class="required" name="hiddenamt" id="hiddenamt" value="<%= totAmt%>"/></font></th>
                 </tr>
                 <tr>
                     <th width="50%" align="left"><font size="1" face="verdana">Discount</font></th>
-                    <th width="50%" align="left"><input type="text" name="discount" id="discount" size="20" onchange="getdiscount(this.value);"></th>
+                    <th width="50%" align="left"><input type="text" name="discount" class="required" id="discount" size="20" onchange="getdiscount(this.value);"></th>
                 </tr>
                 <tr>
                     <th width="50%" align="left"><font size="1" face="verdana">Special Discount</font></th>
-                    <th width="50%" align="left"><input type="text" name="specialdiscount" id="specialdiscount" size="20" onchange="getspecialdiscount(this.value);"></th>
+                    <th width="50%" align="left"><input type="text" name="specialdiscount" class="required" id="specialdiscount" size="20" onchange="getspecialdiscount(this.value);"></th>
                 </tr>
                 <tr>
                     <th width="50%" align="left"><font size="1" face="verdana">Add Estimated Handling, local transportation, SEA/AIR Port charges</font></th>
-                    <th width="50%" align="left"><input type="text" name="portcharges" id="portcharges" onchange="getport(this.value);" size="20"></th>
+                    <th width="50%" align="left"><input type="text" class="required" name="portcharges" id="portcharges" onchange="getport(this.value);" size="20"></th>
                 </tr>
                 <tr>
                     <th width="50%" align="left"><font size="1" face="verdana">Total FOB</font></th>
-                    <th width="50%" align="left"><input type="text" name="fob" id="fob" size="20"></th>
+                    <th width="50%" align="left"><input type="text" class="required" name="fob" id="fob" size="20"></th>
                 </tr>
                 <tr>
                     <td>
@@ -862,7 +879,7 @@
 
                 <tr>
 
-                    <td width="100%" align="right"><b>Total Net Amt.</b><input type="text" name='Total' id="Total" size='10' value=""></td>
+                    <td width="100%" align="right"><b>Total Net Amt.</b><input class="required" type="text" name='Total' id="Total" size='10' value=""></td>
 
                 </tr>
                 <tr>
@@ -888,7 +905,7 @@
 
                 <tr>
                     <th width="50%" align="left"><font size="1" face="verdana">Company Name</font></th>
-                    <th width="50%" align="left"><input type="text" name="countryName" size="20" onchange="getCountryDetails(this.value);"></th>
+                    <th width="50%" align="left"><input type="text" class="required" name="countryName" size="20" onchange="getCountryDetails(this.value);"></th>
                 </tr>
                 <tr>
                     <td width="20%" ></td>
@@ -905,7 +922,7 @@
                     <td align="center" colspan="3">
 
 
-                        <input class="button" type="submit" value="save" name="saveQuot" onclick="save();">
+                        <input class="submit button" type="submit" value="save" name="saveQuot" onclick="save();">
 
                     </td></tr>
                 </tr>
