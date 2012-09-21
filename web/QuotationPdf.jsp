@@ -63,6 +63,9 @@
                 //String invoiceNo = request.getParameter("invoiceId") == null ? "" : request.getParameter("invoiceId");
 
                 output.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
+                output.write("<!DOCTYPE xsl:stylesheet [" +
+                        "<!ENTITY nbsp '&#160;'>" +
+                        "]>");
                 output.write("<fo:root xmlns:fo=\"http://www.w3.org/1999/XSL/Format\">\n");
                 output.write("<fo:layout-master-set>\n");
                 output.write("		<fo:simple-page-master master-name=\"first\" margin-right=\"1.0cm\" margin-left=\"1.0cm\" margin-bottom=\"1.0cm\" margin-top=\"1.0cm\" page-width=\"20.32cm\" page-height=\"19cm\" >\n");
@@ -546,7 +549,7 @@
                         output.write("<fo:block space-before=\"0.0pt\" margin-right=\"0.0pt\" margin-left=\"0.0pt\" border-width=\"0.0pt 0.0pt 0.0pt 0.0pt\" border-style=\"solid solid solid solid\" border-color=\"#000000 #000000 #000000 #000000\" padding=\"0pt 0pt 0.0pt 0pt\">");
                         output.write("<fo:block text-align=\"center\" font-size=\"10.0pt\">");
                         output.write("<fo:inline white-space-collapse=\"false\"  font-weight=\"bold\" font-style=\"normal\" font-size=\"10.0pt\" font-family=\"Times New Roman\" color=\"#000000\">");
-                        output.write(options.getArticleOptionItem() + "</fo:inline>");
+                        output.write(options.getArticleOptionItem().replaceAll("&nbsp"," ") + "</fo:inline>");
                         output.write("</fo:block>");
                         output.write("</fo:block>");
                         output.write("</fo:table-cell>");
@@ -556,7 +559,7 @@
                         output.write("<fo:block text-align=\"center\" font-size=\"10.0pt\">");
                         output.write("<fo:inline white-space-collapse=\"false\"  font-weight=\"bold\" font-style=\"normal\" font-size=\"10.0pt\" font-family=\"Times New Roman\" color=\"#000000\">");
                         //output.write(wdao.getArticleTechDesc("",prop.getProperty("article_desc"))+"</fo:inline>" );
-                        output.write(options.getArticleOptionDesc() + "</fo:inline>");
+                        output.write(options.getArticleOptionDesc().replaceAll("&nbsp"," ") + "</fo:inline>");
                         output.write("</fo:block>");
                         output.write("</fo:block>");
                         output.write("</fo:table-cell>");
@@ -566,7 +569,7 @@
                         output.write("<fo:block text-align=\"center\" font-size=\"10.0pt\">");
                         output.write("<fo:inline white-space-collapse=\"false\"  font-weight=\"bold\" font-style=\"normal\" font-size=\"10.0pt\" font-family=\"Times New Roman\" color=\"#000000\">");
                         //output.write(wdao.getArticleTechDesc("",prop.getProperty("article_desc"))+"</fo:inline>" );
-                        output.write(options.getArticleOptionPrice() + "</fo:inline>");
+                        output.write(options.getArticleOptionPrice().replaceAll("&nbsp"," ") + "</fo:inline>");
                         output.write("</fo:block>");
                         output.write("</fo:block>");
                         output.write("</fo:table-cell>");
@@ -597,7 +600,7 @@
                 output.write("<fo:block space-before=\"0.0pt\" margin-right=\"0.0pt\" margin-left=\"0.0pt\" border-width=\"0.0pt 0.0pt 0.0pt 0.0pt\" border-style=\"solid solid solid solid\" border-color=\"#000000 #000000 #000000 #000000\" padding=\"0pt 0pt 0.0pt 0pt\">");
                 output.write("<fo:block text-align=\"center\" font-size=\"10.0pt\">");
                 output.write("<fo:inline white-space-collapse=\"false\"  font-weight=\"bold\" font-style=\"normal\" font-size=\"10.0pt\" font-family=\"Times New Roman\" color=\"#000000\">");
-                output.write(gBeanName.getCountryName() + "</fo:inline>");
+                output.write(gBeanName.getCountryName().replaceAll("&nbsp"," ") + "</fo:inline>");
                 output.write("</fo:block>");
                 output.write("</fo:block>");
                 output.write("</fo:table-cell>");
@@ -612,7 +615,7 @@
                 output.write("<fo:block space-before=\"0.0pt\" margin-right=\"0.0pt\" margin-left=\"0.0pt\" border-width=\"0.0pt 0.0pt 0.0pt 0.0pt\" border-style=\"solid solid solid solid\" border-color=\"#000000 #000000 #000000 #000000\" padding=\"0pt 0pt 0.0pt 0pt\">");
                 output.write("<fo:block text-align=\"center\" font-size=\"10.0pt\">");
                 output.write("<fo:inline white-space-collapse=\"false\"  font-weight=\"bold\" font-style=\"normal\" font-size=\"10.0pt\" font-family=\"Times New Roman\" color=\"#000000\">");
-                output.write(gBeanName.getCountryAdd().replaceAll("<AnujTestingJKG>", "\n") + "</fo:inline>");
+                output.write(gBeanName.getCountryAdd().replaceAll("&nbsp"," ").replaceAll("<AnujTestingJKG>", "\n") + "</fo:inline>");
                 output.write("</fo:block>");
                 output.write("</fo:block>");
                 output.write("</fo:table-cell>");

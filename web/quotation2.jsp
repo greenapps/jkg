@@ -263,10 +263,10 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: top; 
                             finalstrToReplace=finalstrToReplace+'&bul;';
                         }else if(strToReplace.charAt(i)==''){
                             //strToReplace=strToReplace.replace('%', '%5C');
-                            finalstrToReplace=finalstrToReplace+'&nbsp;';
+                            finalstrToReplace=finalstrToReplace+' ';
                         }else if(strToReplace.charAt(i)==' ' && strToReplace.charAt(i+1)==' '){
                             //strToReplace=strToReplace.replace('%', '%5C');
-                            finalstrToReplace=finalstrToReplace+'&nbsp;';
+                            finalstrToReplace=finalstrToReplace+' ';
                         }else if(strToReplace.charAt(i)=='®'){
                             //strToReplace=strToReplace.replace('%', '%5C');
                             finalstrToReplace=finalstrToReplace+'&reg;';
@@ -806,7 +806,7 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: top; 
                         <input type="hidden" name="quotId" id="qID" value="<%= gbean.getQuotId()%>"/><%= gbean.getQuotId()%>
                     </td>
                     <td>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        
                     </td>
                     <td>
                         Date :

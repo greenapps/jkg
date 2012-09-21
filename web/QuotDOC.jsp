@@ -15,16 +15,39 @@
 <%@page import="daoservice.extendedDao"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Date"%>
+<%@page import="org.docx4j.openpackaging.packages.WordprocessingMLPackage"%>
+<%@page import="org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart"%>
+<%@page import="org.docx4j.jaxb.Context"%>
+<%@page import="org.docx4j.wml.ObjectFactory"%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
 
-    <body>
+    <body style="height:400px">
 
         <%
         String contextPath=request.getContextPath();
+        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
+
+        // Create main document part content
+        MainDocumentPart wordDocumentPart = new MainDocumentPart();
+         
+        ObjectFactory factory = Context.getWmlObjectFactory();
+        org.docx4j.wml.Body body = factory .createBody();
+        org.docx4j.wml.Document wmlDocumentEl = factory .createDocument();
+        wmlDocumentEl.setBody(body);
+        // Put the content in the part
+        wordDocumentPart.setJaxbElement(wmlDocumentEl);
+
+            // Add the main document part to the package relationships
+        // (creating it if necessary)
+        wordMLPackage.addTargetPart(wordDocumentPart);
+                // Save it
+        wordMLPackage.save(new java.io.File("helloworld.docx") );
+
+        
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-");
         java.util.Date date = new java.util.Date();
         extendedDao extDao = new extendedDao();
@@ -168,7 +191,13 @@
                     <b>Authorized Signatory</b>
                 </td>
             </tr>
+   </table>
+    </body>
 
+
+    <body style="height:400px">
+
+        <table>
             <%}
                                                                 if(optionDetails.size()>0){%>
             <tr>
@@ -219,5 +248,6 @@
                 </td>
             </tr>
         </table>
+
     </body>
 </html>
