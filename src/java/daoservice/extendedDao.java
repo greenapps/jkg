@@ -21,6 +21,23 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import java.io.File;
+import java.util.UUID;
+import org.docx4j.customXmlProperties.DatastoreItem;
+import org.docx4j.jaxb.Context;
+import org.docx4j.model.datastorage.CustomXmlDataStorage;
+import org.docx4j.model.datastorage.CustomXmlDataStorageImpl;
+import org.docx4j.openpackaging.Base;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.CustomXmlDataStoragePart;
+import org.docx4j.openpackaging.parts.CustomXmlDataStoragePropertiesPart;
+import org.docx4j.openpackaging.parts.Part;
+import org.docx4j.openpackaging.parts.PartName;
+import org.docx4j.openpackaging.parts.Parts;
+import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.docx4j.openpackaging.exceptions.InvalidFormatException;
+import org.docx4j.openpackaging.io.SaveToZipFile;
 /**
  *
  * @author Anshujkumar
@@ -536,7 +553,46 @@ public class extendedDao {
 
         return SeqVal;
     }
+   public static CustomXmlDataStoragePart injectCustomXmlDataStoragePart(Part parent, Parts parts) throws Exception {
 
+	                        org.docx4j.openpackaging.parts.CustomXmlDataStoragePart customXmlDataStoragePart =
+	                                new org.docx4j.openpackaging.parts.CustomXmlDataStoragePart(parts);
+	                                // Defaults to /customXml/item1.xml
+
+	                        CustomXmlDataStorage data = new CustomXmlDataStorageImpl();
+	                        data.setDocument(createCustomXmlDocument());
+
+	                        customXmlDataStoragePart.setData(data);
+
+	//                      customXmlDataStoragePart.setDocument( createCustomXmlDocument() );
+
+	                        parent.addTargetPart(customXmlDataStoragePart);
+
+	                        return customXmlDataStoragePart;
+
+   }
+ public static org.w3c.dom.Document createCustomXmlDocument() {
+
+	                // TODO: implement
+
+	                return null;
+
+	        }
+
+    public static void addProperties(CustomXmlDataStoragePart customXmlDataStoragePart) throws InvalidFormatException {
+
+	                CustomXmlDataStoragePropertiesPart part = new CustomXmlDataStoragePropertiesPart();
+
+	                org.docx4j.customXmlProperties.ObjectFactory of = new org.docx4j.customXmlProperties.ObjectFactory();
+
+	                DatastoreItem dsi = of.createDatastoreItem();
+	                String newItemId = "{" + UUID.randomUUID().toString() + "}";
+	                dsi.setItemID(newItemId);
+
+	                part.setJaxbElement(dsi );
+
+	                customXmlDataStoragePart.addTargetPart(part);
+	        }
     public String saveQuotation(String[] arrQuotInfo, Hashtable hashInvoiceDetails, Vector hashArticleDesc, Vector hashArticleSpec, Vector ContactDetails, Vector otherDetails, Vector countryDetails, String CompanyName, String tot, Hashtable optionDetail) throws Exception {
         // public String saveInvoice(String[] arrInvoiceInfo, Hashtable hashInvoiceDetails, Hashtable hashArticleSet, Hashtable hashArticleOffer, Vector articlesInOffer, String emp_id, String gvNo, String outlet_type, Hashtable hashBlockedInventory,String exempt_tax,String[] arrCondition) throws Exception{
         generalBean genbean = new generalBean();

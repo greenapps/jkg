@@ -19,6 +19,24 @@
 <%@page import="org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart"%>
 <%@page import="org.docx4j.jaxb.Context"%>
 <%@page import="org.docx4j.wml.ObjectFactory"%>
+<%@page import="org.docx4j.openpackaging.parts.CustomXmlDataStoragePart"%>
+<%@page import="org.docx4j.openpackaging.parts.CustomXmlDataStoragePropertiesPart"%>
+<%@page import="org.docx4j.openpackaging.parts.Part"%>
+<%@page import="org.docx4j.openpackaging.parts.PartName"%>
+<%@page import="org.docx4j.openpackaging.parts.Parts"%>
+<%@page import="org.docx4j.wml.STBrType"%>
+<%@page import="org.docx4j.wml.*"%>
+<%@page import="org.docx4j.XmlUtils"%>
+<%@page import="org.docx4j.convert.out.flatOpcXml.FlatOpcXmlCreator"%>
+<%@page import="org.docx4j.jaxb.NamespacePrefixMapperUtils"%>
+<%@page import="org.docx4j.model.table.TblFactory"%>
+<%@page import="org.docx4j.openpackaging.contenttype.ContentType"%>
+<%@page import="org.docx4j.openpackaging.exceptions.Docx4JException"%>
+<%@page import="org.docx4j.model.datastorage.BindingHandler"%>
+<%@page import="java.math.BigInteger"%>
+<%@page import="org.docx4j.openpackaging.parts.relationships.Namespaces"%>
+<%@page import="javax.xml.bind.JAXBException"%>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,25 +47,6 @@
 
         <%
         String contextPath=request.getContextPath();
-        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
-
-        // Create main document part content
-        MainDocumentPart wordDocumentPart = new MainDocumentPart();
-         
-        ObjectFactory factory = Context.getWmlObjectFactory();
-        org.docx4j.wml.Body body = factory .createBody();
-        org.docx4j.wml.Document wmlDocumentEl = factory .createDocument();
-        wmlDocumentEl.setBody(body);
-        // Put the content in the part
-        wordDocumentPart.setJaxbElement(wmlDocumentEl);
-
-            // Add the main document part to the package relationships
-        // (creating it if necessary)
-        wordMLPackage.addTargetPart(wordDocumentPart);
-                // Save it
-        wordMLPackage.save(new java.io.File("helloworld.docx") );
-
-        
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-");
         java.util.Date date = new java.util.Date();
         extendedDao extDao = new extendedDao();
@@ -77,6 +76,128 @@
                                 Vector optionsVec = new Vector();
                                 generalBean gBeanName = (generalBean) companyDetails.get(0);
                                 //String[] articleTechDesc = gBeanCN.getContactAddress().split("<AnujTestingJKG>");
+                                
+        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
+        //wordMLPackage.getMainDocumentPart().addStyledParagraphOfText("Title", "Hello world");
+
+        wordMLPackage.getMainDocumentPart().addParagraphOfText("Date: "+general.getDate());
+        wordMLPackage.getMainDocumentPart().addParagraphOfText("Our Ref: "+general.getQuotId());
+        wordMLPackage.getMainDocumentPart().addParagraphOfText(gBeanCN.getContactName());
+        wordMLPackage.getMainDocumentPart().addParagraphOfText(gBeanCN.getContactAddress().replaceAll("<AnujTestingJKG>", "<br>"));
+        wordMLPackage.getMainDocumentPart().addParagraphOfText(general.getSub());
+        int writableWidthTwips = wordMLPackage.getDocumentModel().getSections().get(0).getPageDimensions().getWritableWidthTwips();
+        int cols = 5;
+        int cellWidthTwips = new Double(Math.floor((writableWidthTwips / cols))).intValue();
+
+        // Tbl tbl = TblFactory.createTable(3, 3, cellWidthTwips);
+
+        Tbl tbl = Context.getWmlObjectFactory().createTbl();
+        org.docx4j.wml.ObjectFactory factory = new org.docx4j.wml.ObjectFactory();
+        // ///////////////////
+        String strTblPr = "<w:tblPr " + Namespaces.W_NAMESPACE_DECLARATION
+        + ">" + "<w:tblStyle w:val=\"TableGrid\"/>"
+        + "<w:tblW w:w=\"0\" w:type=\"auto\"/>"
+        + "<w:tblLook w:val=\"04A0\"/>" + "</w:tblPr>";
+        TblPr tblPr = null;
+        String text =   "<w:p>" +
+                       "   <w:r>" +
+                       "              <w:t>line 1</w:t>" +
+                       "              <w:br/>" +
+                       "              <w:t>line 2</w:t>" +
+                       "   </w:r>" +
+                       "</w:p>";
+        try {
+        tblPr = (TblPr) XmlUtils.unmarshalString(strTblPr);
+        wordMLPackage.getMainDocumentPart().createParagraphOfText(text);
+        }
+
+        catch (JAXBException e) {
+        // Shouldn't happen
+        e.printStackTrace();
+        }
+        tbl.setTblPr(tblPr);
+
+        TblGrid tblGrid = Context.getWmlObjectFactory().createTblGrid();
+        tbl.setTblGrid(tblGrid);
+
+        int writableWidthTwips1 = wordMLPackage.getDocumentModel()
+        .getSections().get(0).getPageDimensions()
+        .getWritableWidthTwips();
+        int cellWidthTwips1 = new Double(
+        Math.floor((writableWidthTwips / cols))).intValue();
+
+        for (int i = 0; i < cols; i++) {
+        TblGridCol gridCol = Context.getWmlObjectFactory()
+        .createTblGridCol();
+        gridCol.setW(BigInteger.valueOf(cellWidthTwips));
+        tblGrid.getGridCol().add(gridCol);
+        }
+
+        List<String> ls = new ArrayList<String>();
+        ls.add("Cat No. ");
+        ls.add("Description");
+        ls.add("Unit Price In USD ");
+        ls.add("Qty");
+        ls.add("Amt. In USD ");
+
+        Tc tc = null;
+        Tr tr = null;
+        int rows = 1;
+        for (int j = 0; j < rows; j++) {
+        tr = Context.getWmlObjectFactory().createTr();
+        // tbl.getEGContentRowContent().add(tr);
+        // for (int i = 1; i <= cols; i++) {
+        for (int i = 0; i < cols; i++) {
+        tc = Context.getWmlObjectFactory().createTc();
+
+        TcPr tcPr = Context.getWmlObjectFactory().createTcPr();
+        tc.setTcPr(tcPr);
+        TblWidth cellWidth = Context.getWmlObjectFactory().createTblWidth();
+        tcPr.setTcW(cellWidth);
+        cellWidth.setType("dxa");
+        cellWidth.setW(BigInteger.valueOf(cellWidthTwips));
+        org.docx4j.wml.ObjectFactory factory1 = Context
+        .getWmlObjectFactory();
+        org.docx4j.wml.P p1 = factory.createP();
+        org.docx4j.wml.Text t1 = factory.createText();
+        // ls.add("val :" + i);
+        t1.setValue(ls.get(i));
+        org.docx4j.wml.R run1 = factory.createR();
+        run1.getRunContent().add(t1);
+
+        p1.getParagraphContent().add(run1);
+        tc.getEGBlockLevelElts().add(p1);
+        tr.getEGContentCellContent().add(tc);
+
+        }
+
+        tbl.getEGContentRowContent().add(tr);
+        }
+
+        wordMLPackage.getMainDocumentPart().addObject(tbl);
+        org.docx4j.wml.P p = new org.docx4j.wml.P();
+        org.docx4j.wml.R r = new org.docx4j.wml.R();
+        org.docx4j.wml.Text t = new org.docx4j.wml.Text();
+        t.setValue("Line1");
+        org.docx4j.wml.Text t1 = new org.docx4j.wml.Text();
+        t1.setValue("Line2");
+        org.docx4j.wml.Br br = new org.docx4j.wml.Br();
+        
+        br.setType(STBrType.PAGE);
+        r.getContent().add(t1);
+        r.getContent().add(t);
+        r.getContent().add(br);
+        p.getContent().add(r);
+        wordMLPackage.getMainDocumentPart().addObject(p);
+	CustomXmlDataStoragePart customXmlDataStoragePart = extendedDao.injectCustomXmlDataStoragePart(wordMLPackage.getMainDocumentPart(),wordMLPackage.getParts() );
+	extendedDao.addProperties(customXmlDataStoragePart);
+        //BindingHandler.applyBindings(wordMLPackage.getMainDocumentPart());
+        // Create main document part content
+        wordMLPackage.save(new java.io.File(System.getProperty("user.dir") + "/"+ name + ".docx") );
+       
+
+
+        
 
 
         %>

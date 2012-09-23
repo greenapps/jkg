@@ -28,7 +28,7 @@
         <%
             reports.ReportBase rep = new ReportBase();
             try {
-                System.out.println("Hello Rahul on this new page");
+                
                 System.out.println("WE ARE IN PDF VIEW -->" + request.getParameter("VAL"));
                 String val = request.getParameter("VAL");
                 rep.initReport("QuotPdf", request, response);
