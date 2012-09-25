@@ -83,7 +83,7 @@
         wordMLPackage.getMainDocumentPart().addParagraphOfText("Date: "+general.getDate());
         wordMLPackage.getMainDocumentPart().addParagraphOfText("Our Ref: "+general.getQuotId());
         wordMLPackage.getMainDocumentPart().addParagraphOfText(gBeanCN.getContactName());
-        wordMLPackage.getMainDocumentPart().addParagraphOfText(gBeanCN.getContactAddress().replaceAll("<AnujTestingJKG>", "<br>"));
+        wordMLPackage.getMainDocumentPart().addParagraphOfText(gBeanCN.getContactAddress().replaceAll("<AnujTestingJKG>", "\n"));
         wordMLPackage.getMainDocumentPart().addParagraphOfText(general.getSub());
         int writableWidthTwips = wordMLPackage.getDocumentModel().getSections().get(0).getPageDimensions().getWritableWidthTwips();
         int cols = 5;
@@ -108,7 +108,7 @@
                        "</w:p>";
         try {
         tblPr = (TblPr) XmlUtils.unmarshalString(strTblPr);
-        wordMLPackage.getMainDocumentPart().createParagraphOfText(text);
+        
         }
 
         catch (JAXBException e) {
@@ -156,8 +156,7 @@
         tcPr.setTcW(cellWidth);
         cellWidth.setType("dxa");
         cellWidth.setW(BigInteger.valueOf(cellWidthTwips));
-        org.docx4j.wml.ObjectFactory factory1 = Context
-        .getWmlObjectFactory();
+        org.docx4j.wml.ObjectFactory factory1 = Context.getWmlObjectFactory();
         org.docx4j.wml.P p1 = factory.createP();
         org.docx4j.wml.Text t1 = factory.createText();
         // ls.add("val :" + i);
@@ -182,7 +181,27 @@
         org.docx4j.wml.Text t1 = new org.docx4j.wml.Text();
         t1.setValue("Line2");
         org.docx4j.wml.Br br = new org.docx4j.wml.Br();
+        wordMLPackage.getMainDocumentPart().addParagraphOfText("LINE1 \n LINE2");
         
+                org.docx4j.wml.P pNewLine = new org.docx4j.wml.P();
+
+                org.docx4j.wml.R  run = factory.createR();
+                pNewLine.getContent().add(run);
+
+                run.getContent().add(factory.createRTab() );
+
+                org.docx4j.wml.Text  text1 = factory.createText();
+                text1.setValue("that was a tab");
+
+                run.getContent().add(text1 );
+
+                
+
+                org.docx4j.wml.Text  text2 = factory.createText();
+                text2.setValue("and that was a new line");
+                run.getContent().add(factory.createBr() );
+                // Check you got what you expected
+                System.out.println(XmlUtils.marshaltoString(pNewLine, true));
         br.setType(STBrType.PAGE);
         r.getContent().add(t1);
         r.getContent().add(t);
